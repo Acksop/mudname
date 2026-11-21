@@ -35,6 +35,8 @@ class mudnames_dico {
 	protected $file_particles;
 	// capacité retenue (déclarée : propriété dynamique dépréciée depuis PHP 8.2, 22/11/2026)
 	protected $currentcap;
+	protected $forced_cap;
+	protected $forced_capability = array();
 	public $debug;
 	
 	/**
