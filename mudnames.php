@@ -33,6 +33,8 @@ class mudnames_dico {
 	protected $directory;
 	protected $forcedcap;
 	protected $file_particles;
+	// capacité retenue (déclarée : propriété dynamique dépréciée depuis PHP 8.2, 22/11/2026)
+	protected $currentcap;
 	public $debug;
 	
 	/**
@@ -57,19 +59,20 @@ class mudnames_dico {
 			while (!feof($handle))
 			{
 				$line++;
-				$buffer = fgets($handle, 4096);
+				// fins de ligne LF ou CRLF (copie de travail sous Windows) retirées comme dans phpMudnames 1.4 (22/11/2026)
+				$buffer = rtrim((string)fgets($handle, 4096), "\r\n");
 
 				if (strpos($buffer,'#') === 0) {
-					$current_part = str_replace(array("\n",'#'),'',$buffer);
+					$current_part = ltrim($buffer,'#');
 					if (array_key_exists($current_part,$this->particle)) {
 						$this->file_particles[$current_part] = array();
 					} else {
 						trigger_error ($this->directory.$this->file . ":$line: Unknow particle '$current_part'.",E_USER_WARNING);
 					}
 				}
-				elseif (strlen($buffer) > 1 && strpos($buffer,'-----') === false)
-					$this->file_particles[$current_part][] = str_replace("\n",'',$buffer);
-				elseif (strlen($buffer) === 1)
+				elseif (strlen($buffer) > 0 && strpos($buffer,'-----') === false)
+					$this->file_particles[$current_part][] = $buffer;
+				elseif (strlen($buffer) === 0)
 					continue;
 
 			}
@@ -243,6 +246,8 @@ class mudnames {
 	private $dictionnary;
 	private $particle_used = array();
 	private $capability;
+	// dictionnaire en cours (déclaré : propriété dynamique dépréciée depuis PHP 8.2, 22/11/2026)
+	private $current_file;
 	
 	private $info = array(
 		'dictionnaries' => array(),
