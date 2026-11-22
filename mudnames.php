@@ -331,7 +331,8 @@ class mudnames {
 		$tag = strtr($tag,' ','_');
 		switch ($tag) {
 			case 'file_used':
-				$tag = 'dictionnaries';
+				// dictionnaire du dernier nom (l'original 1.2.0 retombait dans 'capability', 22/11/2026)
+				return $this->current_file;
 			case 'capability':
 				return $this->info['capability'][$this->current_file];
 				break;

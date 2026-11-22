@@ -7,7 +7,7 @@ $number = 5;
 chdir('../');
 require('mudnames.php');
 
-$gname = new mudnames();
+$gname = new \Mudname\mudnames();
 
 $names = array();
 while ($number > 0) {

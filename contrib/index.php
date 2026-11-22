@@ -5,7 +5,7 @@ require('./mudnames.php');
 
 $file = (isset($_GET['f']) && !empty($_GET['f'])) ? $_GET['f'] : 'random' ;
 
-$gname = new mudnames();
+$gname = new \Mudname\mudnames();
 
 $name = $gname->generate_name_from($file);
 ?>
